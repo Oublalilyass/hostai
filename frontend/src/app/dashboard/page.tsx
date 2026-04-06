@@ -2,7 +2,7 @@
 // src/app/dashboard/page.tsx
 
 import { useEffect, useState } from 'react';
-import { Building2, CalendarDays, Sparkles, BroomIcon, Bell, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Building2, CalendarDays, Sparkles, Bell, ArrowRight, CheckCircle2 } from 'lucide-react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { StatCard, Badge } from '@/components/ui';
 import { dashboardAPI, bookingsAPI } from '@/lib/api';
