@@ -1,0 +1,390 @@
+// src/app/landing/page.tsx
+// Full marketing landing page for HostAI
+
+export default function LandingPage() {
+  return (
+    <>
+      <style dangerouslySetInnerHTML={{ __html: landingCSS }} />
+
+      <div
+        dangerouslySetInnerHTML={{ __html: landingHTML }}
+      />
+    </>
+  );
+}
+
+const landingCSS = `
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --rausch: #FF385C; --rausch-dark: #E31C5F; --babu: #00A699;
+    --white: #ffffff; --dark-bg: #0D0D0D; --dark-card: #161616;
+    --dark-border: rgba(255,255,255,0.08);
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--dark-bg); color: var(--white); overflow-x: hidden; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 5%; height: 68px; background: rgba(13,13,13,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--dark-border); }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo-icon { width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(135deg, #FF385C, #E31C5F); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .nav-logo-text { font-size: 18px; font-weight: 700; color: var(--white); }
+  .nav-links { display: flex; align-items: center; gap: 36px; }
+  .nav-links a { color: rgba(255,255,255,0.65); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: white; }
+  .nav-cta { display: flex; align-items: center; gap: 12px; }
+  .btn-nav-ghost { color: white; text-decoration: none; font-size: 14px; font-weight: 500; padding: 8px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.2); transition: all 0.2s; }
+  .btn-nav-ghost:hover { background: rgba(255,255,255,0.08); }
+  .btn-nav-primary { background: linear-gradient(135deg, #FF385C, #E31C5F); color: white; text-decoration: none; font-size: 14px; font-weight: 600; padding: 9px 22px; border-radius: 50px; transition: all 0.2s; box-shadow: 0 4px 16px rgba(255,56,92,0.35); }
+  .btn-nav-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,56,92,0.45); }
+  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 5% 80px; position: relative; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; z-index: 0; background-image: url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1800&q=80'); background-size: cover; background-position: center; filter: brightness(0.18); }
+  .hero-glow { position: absolute; top: 20%; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; border-radius: 50%; background: radial-gradient(ellipse, rgba(255,56,92,0.15) 0%, transparent 70%); z-index: 0; pointer-events: none; }
+  .hero-content { position: relative; z-index: 1; max-width: 780px; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,56,92,0.15); border: 1px solid rgba(255,56,92,0.3); color: #FF7091; font-size: 13px; font-weight: 600; padding: 6px 16px; border-radius: 50px; margin-bottom: 28px; }
+  .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #FF385C; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .hero h1 { font-size: clamp(40px, 6vw, 72px); font-weight: 800; line-height: 1.08; letter-spacing: -0.03em; margin-bottom: 24px; background: linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.7) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero h1 span { background: linear-gradient(135deg, #FF385C, #FC642D); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-sub { font-size: 18px; color: rgba(255,255,255,0.55); line-height: 1.65; margin-bottom: 44px; max-width: 560px; margin-left: auto; margin-right: auto; }
+  .hero-actions { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 64px; }
+  .btn-hero-primary { background: linear-gradient(135deg, #FF385C, #E31C5F); color: white; text-decoration: none; font-size: 16px; font-weight: 700; padding: 16px 36px; border-radius: 50px; box-shadow: 0 8px 32px rgba(255,56,92,0.4); transition: all 0.25s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-hero-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(255,56,92,0.5); }
+  .btn-hero-ghost { color: white; text-decoration: none; font-size: 15px; font-weight: 600; padding: 15px 32px; border-radius: 50px; border: 1.5px solid rgba(255,255,255,0.2); transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-hero-ghost:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.35); }
+  .hero-stats { display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; }
+  .hero-stat { text-align: center; }
+  .hero-stat-num { font-size: 28px; font-weight: 800; color: white; }
+  .hero-stat-label { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+  .hero-stat-divider { width: 1px; height: 36px; background: rgba(255,255,255,0.1); }
+  .social-proof { padding: 40px 5%; border-top: 1px solid var(--dark-border); border-bottom: 1px solid var(--dark-border); background: rgba(255,255,255,0.02); }
+  .social-proof-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+  .social-proof-label { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.3); letter-spacing: 0.08em; text-transform: uppercase; margin-right: 8px; }
+  .platform-badge { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.05); border: 1px solid var(--dark-border); padding: 8px 20px; border-radius: 50px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.5); }
+  .platform-badge .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .section { padding: 100px 5%; max-width: 1200px; margin: 0 auto; }
+  .section-label { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #FF385C; margin-bottom: 16px; }
+  .section-title { font-size: clamp(28px, 4vw, 44px); font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; color: white; margin-bottom: 16px; }
+  .section-sub { font-size: 17px; color: rgba(255,255,255,0.45); line-height: 1.65; max-width: 480px; }
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 60px; border: 1px solid var(--dark-border); border-radius: 20px; overflow: hidden; }
+  .feature-card { background: var(--dark-card); padding: 36px 32px; transition: background 0.2s; border-right: 1px solid var(--dark-border); border-bottom: 1px solid var(--dark-border); }
+  .feature-card:hover { background: #1c1c1c; }
+  .feature-card:nth-child(3), .feature-card:nth-child(6) { border-right: none; }
+  .feature-card:nth-child(4), .feature-card:nth-child(5), .feature-card:nth-child(6) { border-bottom: none; }
+  .feature-icon { width: 48px; height: 48px; border-radius: 14px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+  .feature-icon.red { background: rgba(255,56,92,0.15); }
+  .feature-icon.teal { background: rgba(0,166,153,0.15); }
+  .feature-icon.orange { background: rgba(252,100,45,0.15); }
+  .feature-icon.purple { background: rgba(99,102,241,0.15); }
+  .feature-icon.green { background: rgba(34,197,94,0.15); }
+  .feature-icon.blue { background: rgba(59,130,246,0.15); }
+  .feature-card h3 { font-size: 17px; font-weight: 700; color: white; margin-bottom: 10px; }
+  .feature-card p { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.65; }
+  .how-section { padding: 100px 5%; background: rgba(255,255,255,0.02); border-top: 1px solid var(--dark-border); border-bottom: 1px solid var(--dark-border); }
+  .how-inner { max-width: 1100px; margin: 0 auto; }
+  .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 60px; }
+  .step { padding: 36px 28px; border-right: 1px solid var(--dark-border); }
+  .step:last-child { border-right: none; }
+  .step-num { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: rgba(255,56,92,0.7); margin-bottom: 20px; text-transform: uppercase; }
+  .step-icon { font-size: 28px; margin-bottom: 16px; }
+  .step h3 { font-size: 16px; font-weight: 700; color: white; margin-bottom: 8px; }
+  .step p { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.6; }
+  .properties-section { padding: 100px 5%; max-width: 1200px; margin: 0 auto; }
+  .props-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 48px; }
+  .prop-card { border-radius: 16px; overflow: hidden; border: 1px solid var(--dark-border); transition: all 0.3s; background: var(--dark-card); }
+  .prop-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.15); }
+  .prop-img { width: 100%; height: 180px; object-fit: cover; display: block; }
+  .prop-overlay { position: relative; }
+  .prop-badge { position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px); color: white; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); }
+  .prop-info { padding: 14px 16px; }
+  .prop-city { font-size: 15px; font-weight: 700; color: white; margin-bottom: 4px; }
+  .prop-count { font-size: 12px; color: rgba(255,255,255,0.4); }
+  .pricing-section { padding: 100px 5%; max-width: 1100px; margin: 0 auto; text-align: center; }
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 56px; text-align: left; }
+  .pricing-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 20px; padding: 36px 30px; position: relative; transition: border-color 0.2s; }
+  .pricing-card:hover { border-color: rgba(255,255,255,0.2); }
+  .pricing-card.featured { border-color: rgba(255,56,92,0.5); background: linear-gradient(145deg, #1a0a0e 0%, #161616 100%); }
+  .pricing-popular { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #FF385C, #E31C5F); color: white; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; padding: 4px 16px; border-radius: 50px; text-transform: uppercase; white-space: nowrap; }
+  .pricing-tier { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.4); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+  .pricing-price { font-size: 48px; font-weight: 800; color: white; line-height: 1; margin-bottom: 4px; }
+  .pricing-price span { font-size: 20px; font-weight: 500; color: rgba(255,255,255,0.4); }
+  .pricing-period { font-size: 13px; color: rgba(255,255,255,0.3); margin-bottom: 28px; }
+  .pricing-divider { height: 1px; background: var(--dark-border); margin-bottom: 24px; }
+  .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+  .pricing-features li { font-size: 14px; color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 10px; }
+  .pricing-features li::before { content: '✓'; width: 18px; height: 18px; border-radius: 50%; background: rgba(0,166,153,0.15); border: 1px solid rgba(0,166,153,0.4); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #00A699; }
+  .pricing-features li.dim { opacity: 0.3; }
+  .pricing-features li.dim::before { content: '×'; color: rgba(255,255,255,0.3); background: transparent; border-color: rgba(255,255,255,0.15); }
+  .pricing-btn { display: block; text-align: center; padding: 13px; border-radius: 12px; font-size: 14px; font-weight: 700; text-decoration: none; transition: all 0.2s; }
+  .pricing-btn.outlined { border: 1.5px solid rgba(255,255,255,0.2); color: white; }
+  .pricing-btn.outlined:hover { background: rgba(255,255,255,0.07); }
+  .pricing-btn.solid { background: linear-gradient(135deg, #FF385C, #E31C5F); color: white; box-shadow: 0 4px 20px rgba(255,56,92,0.3); }
+  .pricing-btn.solid:hover { box-shadow: 0 6px 28px rgba(255,56,92,0.45); transform: translateY(-1px); }
+  .testimonials-section { padding: 100px 5%; max-width: 1100px; margin: 0 auto; }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 56px; }
+  .testimonial-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 20px; padding: 28px; }
+  .testimonial-stars { color: #FBBF24; font-size: 14px; margin-bottom: 16px; letter-spacing: 2px; }
+  .testimonial-text { font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+  .testimonial-author { display: flex; align-items: center; gap: 12px; }
+  .testimonial-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: white; flex-shrink: 0; }
+  .testimonial-name { font-size: 14px; font-weight: 700; color: white; }
+  .testimonial-role { font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+  .cta-section { padding: 80px 5%; margin: 60px 5%; border-radius: 28px; background: linear-gradient(135deg, #1a0508 0%, #160310 50%, #0a0d1a 100%); border: 1px solid rgba(255,56,92,0.2); text-align: center; position: relative; overflow: hidden; }
+  .cta-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 500px; height: 300px; border-radius: 50%; background: radial-gradient(ellipse, rgba(255,56,92,0.1) 0%, transparent 70%); pointer-events: none; }
+  .cta-section h2 { font-size: clamp(28px, 4vw, 48px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 16px; position: relative; }
+  .cta-section p { font-size: 17px; color: rgba(255,255,255,0.45); margin-bottom: 36px; position: relative; }
+  .cta-actions { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; position: relative; }
+  footer { padding: 60px 5% 32px; border-top: 1px solid var(--dark-border); }
+  .footer-top { display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; margin-bottom: 48px; }
+  .footer-brand { max-width: 280px; }
+  .footer-brand-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; text-decoration: none; }
+  .footer-brand-icon { width: 32px; height: 32px; border-radius: 9px; background: linear-gradient(135deg, #FF385C, #E31C5F); display: flex; align-items: center; justify-content: center; font-size: 15px; }
+  .footer-brand-name { font-size: 17px; font-weight: 700; color: white; }
+  .footer-brand p { font-size: 13px; color: rgba(255,255,255,0.35); line-height: 1.65; }
+  .footer-links-col h4 { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 16px; }
+  .footer-links-col a { display: block; font-size: 14px; color: rgba(255,255,255,0.5); text-decoration: none; margin-bottom: 10px; transition: color 0.2s; }
+  .footer-links-col a:hover { color: white; }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 28px; border-top: 1px solid var(--dark-border); flex-wrap: wrap; gap: 12px; }
+  .footer-bottom p { font-size: 13px; color: rgba(255,255,255,0.25); }
+  .footer-langs { display: flex; gap: 10px; }
+  .footer-langs a { font-size: 13px; color: rgba(255,255,255,0.35); text-decoration: none; padding: 4px 12px; border-radius: 6px; border: 1px solid var(--dark-border); transition: all 0.2s; }
+  .footer-langs a:hover { color: white; border-color: rgba(255,255,255,0.2); }
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+    .steps-grid { grid-template-columns: repeat(2, 1fr); }
+    .steps-grid .step { border-bottom: 1px solid var(--dark-border); }
+    .props-grid { grid-template-columns: repeat(2, 1fr); }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .features-grid { grid-template-columns: 1fr; }
+    .steps-grid { grid-template-columns: 1fr; }
+    .hero-stat-divider { display: none; }
+  }
+`;
+
+const landingHTML = `
+  <nav>
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">✦</div>
+      <span class="nav-logo-text">HostAI</span>
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#testimonials">Reviews</a>
+    </div>
+    <div class="nav-cta">
+      <a href="/auth/login" class="btn-nav-ghost">Log in</a>
+      <a href="/auth/register" class="btn-nav-primary">Get started free</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        AI-powered host automation — now in 3 languages
+      </div>
+      <h1>Your properties.<br /><span>Managed by AI.</span></h1>
+      <p class="hero-sub">Automate check-in messages, guest Q&amp;A, and cleaning notifications across all your properties — in English, French, and Spanish.</p>
+      <div class="hero-actions">
+        <a href="/auth/register" class="btn-hero-primary">Start for free →</a>
+        <a href="#how" class="btn-hero-ghost">▶ See how it works</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-num">3×</div><div class="hero-stat-label">Faster responses</div></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><div class="hero-stat-num">80%</div><div class="hero-stat-label">Less manual work</div></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><div class="hero-stat-num">3</div><div class="hero-stat-label">Languages</div></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><div class="hero-stat-num">24/7</div><div class="hero-stat-label">AI coverage</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="social-proof">
+    <div class="social-proof-inner">
+      <span class="social-proof-label">Works with</span>
+      <div class="platform-badge"><div class="dot" style="background:#FF385C;"></div> Airbnb</div>
+      <div class="platform-badge"><div class="dot" style="background:#003580;"></div> Booking.com</div>
+      <div class="platform-badge"><div class="dot" style="background:#1B5E20;"></div> VRBO</div>
+      <div class="platform-badge"><div class="dot" style="background:#6366F1;"></div> Direct bookings</div>
+    </div>
+  </div>
+
+  <section class="section" id="features">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-bottom:80px;flex-wrap:wrap;">
+      <div>
+        <div class="section-label">Features</div>
+        <h2 class="section-title">Everything a host needs, automated.</h2>
+        <p class="section-sub">Stop copy-pasting the same messages. Let AI handle the repetitive work.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div style="background:rgba(255,56,92,0.08);border:1px solid rgba(255,56,92,0.15);border-radius:14px;padding:20px;">
+          <div style="font-size:22px;margin-bottom:10px;">✉️</div>
+          <div style="font-size:22px;font-weight:800;color:white;">100+</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.4);">Messages automated/month</div>
+        </div>
+        <div style="background:rgba(0,166,153,0.08);border:1px solid rgba(0,166,153,0.15);border-radius:14px;padding:20px;">
+          <div style="font-size:22px;margin-bottom:10px;">🌍</div>
+          <div style="font-size:22px;font-weight:800;color:white;">3</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.4);">Languages supported</div>
+        </div>
+        <div style="background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.15);border-radius:14px;padding:20px;">
+          <div style="font-size:22px;margin-bottom:10px;">🧹</div>
+          <div style="font-size:22px;font-weight:800;color:white;">0</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.4);">Forgotten cleanings</div>
+        </div>
+        <div style="background:rgba(252,100,45,0.08);border:1px solid rgba(252,100,45,0.15);border-radius:14px;padding:20px;">
+          <div style="font-size:22px;margin-bottom:10px;">⭐</div>
+          <div style="font-size:22px;font-weight:800;color:white;">4.9</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.4);">Avg. guest rating</div>
+        </div>
+      </div>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon red">🗝️</div><h3>AI Check-in Messages</h3><p>Auto-generate warm, personalized check-in instructions with your lock codes, WiFi, and local tips — in the guest's language.</p></div>
+      <div class="feature-card"><div class="feature-icon teal">💬</div><h3>Multilingual FAQ Bot</h3><p>Guests ask at 11pm. The AI answers instantly — WiFi, parking, checkout, house rules — in English, French, or Spanish.</p></div>
+      <div class="feature-card"><div class="feature-icon orange">🧹</div><h3>Auto Cleaning Tasks</h3><p>Mark a guest as checked out and a cleaning task is created automatically. Your cleaner gets notified. Zero effort.</p></div>
+      <div class="feature-card"><div class="feature-icon purple">🏠</div><h3>Multi-Property Dashboard</h3><p>All your properties, bookings, messages, and tasks in one place. No more juggling apps.</p></div>
+      <div class="feature-card"><div class="feature-icon green">📅</div><h3>Booking Management</h3><p>Import bookings from any platform. Track check-ins, check-outs, and special requests in one view.</p></div>
+      <div class="feature-card"><div class="feature-icon blue">🔔</div><h3>Smart Notifications</h3><p>Get alerted for upcoming arrivals, overdue cleanings, and unread guest messages.</p></div>
+    </div>
+  </section>
+
+  <section class="how-section" id="how">
+    <div class="how-inner">
+      <div style="text-align:center;max-width:600px;margin:0 auto;">
+        <div class="section-label">How it works</div>
+        <h2 class="section-title">Set up in 10 minutes. Save hours every week.</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step"><div class="step-num">Step 01</div><div class="step-icon">🏠</div><h3>Add your properties</h3><p>Enter property details, check-in instructions, and cleaner contact in EN, FR, or ES.</p></div>
+        <div class="step"><div class="step-num">Step 02</div><div class="step-icon">📋</div><h3>Import bookings</h3><p>Add bookings manually or import from Airbnb, Booking.com, or VRBO. Select guest language.</p></div>
+        <div class="step"><div class="step-num">Step 03</div><div class="step-icon">✨</div><h3>AI generates messages</h3><p>One click generates a perfect check-in message tailored to the guest's language and property.</p></div>
+        <div class="step" style="border-right:none;"><div class="step-num">Step 04</div><div class="step-icon">🧹</div><h3>Auto-handle checkout</h3><p>Mark guest as checked out. AI sends checkout message and creates a cleaning task automatically.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="properties-section">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;flex-wrap:wrap;gap:20px;">
+      <div><div class="section-label">Top destinations</div><h2 class="section-title">Manage properties anywhere.</h2></div>
+      <a href="/auth/register" style="color:#FF385C;font-size:14px;font-weight:600;text-decoration:none;">See all →</a>
+    </div>
+    <div class="props-grid">
+      <div class="prop-card"><div class="prop-overlay"><img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=600&q=80" class="prop-img" alt="Paris" /><div class="prop-badge">🇫🇷 French support</div></div><div class="prop-info"><div class="prop-city">Paris, France</div><div class="prop-count">430 properties managed</div></div></div>
+      <div class="prop-card"><div class="prop-overlay"><img src="https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=600&q=80" class="prop-img" alt="Barcelona" /><div class="prop-badge">🇪🇸 Spanish support</div></div><div class="prop-info"><div class="prop-city">Barcelona, Spain</div><div class="prop-count">550 properties managed</div></div></div>
+      <div class="prop-card"><div class="prop-overlay"><img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=600&q=80" class="prop-img" alt="London" /><div class="prop-badge">🇬🇧 English support</div></div><div class="prop-info"><div class="prop-city">London, UK</div><div class="prop-count">750 properties managed</div></div></div>
+      <div class="prop-card"><div class="prop-overlay"><img src="https://images.unsplash.com/photo-1514890547357-a9ee288728e0?w=600&q=80" class="prop-img" alt="Maldives" /><div class="prop-badge">🌍 All languages</div></div><div class="prop-info"><div class="prop-city">Maldives</div><div class="prop-count">432 properties managed</div></div></div>
+    </div>
+  </section>
+
+  <section class="pricing-section" id="pricing">
+    <div class="section-label" style="text-align:center;">Pricing</div>
+    <h2 class="section-title" style="text-align:center;">Simple, honest pricing.</h2>
+    <p style="font-size:17px;color:rgba(255,255,255,0.4);margin-top:12px;">Start free, upgrade when you're ready. Cancel anytime.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-tier">Starter</div>
+        <div class="pricing-price">$0<span>/mo</span></div>
+        <div class="pricing-period">Free forever · 1 property</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>1 property</li>
+          <li>10 AI messages/month</li>
+          <li>Manual booking import</li>
+          <li>EN language only</li>
+          <li class="dim">Cleaning automation</li>
+          <li class="dim">Multilingual support</li>
+        </ul>
+        <a href="/auth/register" class="pricing-btn outlined">Get started free</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-popular">Most popular</div>
+        <div class="pricing-tier">Pro</div>
+        <div class="pricing-price">$29<span>/mo</span></div>
+        <div class="pricing-period">Per host · up to 5 properties</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>Up to 5 properties</li>
+          <li>Unlimited AI messages</li>
+          <li>Auto cleaning tasks</li>
+          <li>EN + FR + ES languages</li>
+          <li>FAQ bot 24/7</li>
+          <li>Email notifications</li>
+        </ul>
+        <a href="/auth/register" class="pricing-btn solid">Start 14-day free trial</a>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-tier">Scale</div>
+        <div class="pricing-price">$79<span>/mo</span></div>
+        <div class="pricing-period">Per host · unlimited properties</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>Unlimited properties</li>
+          <li>Unlimited AI messages</li>
+          <li>Priority AI responses</li>
+          <li>All 3 languages</li>
+          <li>Custom message templates</li>
+          <li>Dedicated support</li>
+        </ul>
+        <a href="/auth/register" class="pricing-btn outlined">Contact us</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials-section" id="testimonials">
+    <div style="text-align:center;max-width:600px;margin:0 auto;">
+      <div class="section-label">Testimonials</div>
+      <h2 class="section-title">Hosts love HostAI.</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"I manage 4 apartments in Paris. Before HostAI I spent 2 hours every day on messages. Now it's 10 minutes. The French AI messages are perfect — guests think I wrote them myself."</p>
+        <div class="testimonial-author"><div class="testimonial-avatar" style="background:linear-gradient(135deg,#FF385C,#E31C5F);">SM</div><div><div class="testimonial-name">Sophie Martin</div><div class="testimonial-role">Host · Paris · 4 properties</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"The auto cleaning task feature is a game changer. I used to forget to message my cleaner at least once a month. Now it happens automatically the moment a guest checks out."</p>
+        <div class="testimonial-author"><div class="testimonial-avatar" style="background:linear-gradient(135deg,#00A699,#007A72);">JS</div><div><div class="testimonial-name">John Smith</div><div class="testimonial-role">Host · London · 7 properties</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"My guests come from all over the world. HostAI detects their language and responds in Spanish or English. My review scores went from 4.6 to 4.9 in one month."</p>
+        <div class="testimonial-author"><div class="testimonial-avatar" style="background:linear-gradient(135deg,#FC642D,#E31C5F);">CR</div><div><div class="testimonial-name">Carlos Rivera</div><div class="testimonial-role">Host · Barcelona · 3 properties</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-section">
+    <div class="cta-glow"></div>
+    <h2>Ready to automate your hosting?</h2>
+    <p>Join hundreds of hosts saving 5+ hours per week with AI.</p>
+    <div class="cta-actions">
+      <a href="/auth/register" class="btn-hero-primary">Start free today →</a>
+      <a href="/auth/login" class="btn-hero-ghost">Already have an account</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="/" class="footer-brand-logo"><div class="footer-brand-icon">✦</div><span class="footer-brand-name">HostAI</span></a>
+        <p>AI-powered automation for Airbnb hosts. Save time, delight guests, grow your portfolio.</p>
+      </div>
+      <div class="footer-links-col"><h4>Product</h4><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#how">How it works</a><a href="/auth/register">Sign up</a></div>
+      <div class="footer-links-col"><h4>Languages</h4><a href="#">English</a><a href="#">Français</a><a href="#">Español</a></div>
+      <div class="footer-links-col"><h4>Support</h4><a href="#">Documentation</a><a href="#">Contact</a><a href="#">Privacy Policy</a></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 HostAI. All rights reserved.</p>
+      <div class="footer-langs"><a href="#">🇬🇧 EN</a><a href="#">🇫🇷 FR</a><a href="#">🇪🇸 ES</a></div>
+    </div>
+  </footer>
+`;
