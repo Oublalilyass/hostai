@@ -9,11 +9,22 @@ const routes = require('./routes/index');
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+const allowedOrigins = process.env.FRONTEND_URLS
+  ? process.env.FRONTEND_URLS.split(',')
+  : ['http://localhost:3000'];
+
+
 // ============================================================
 // MIDDLEWARE
 // ============================================================
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true); // allow Postman
+    if (allowedOrigins.indexOf(origin) === -1) {
+      return callback(new Error('CORS policy: origin not allowed'), false);
+    }
+    return callback(null, true);
+  },
   credentials: true,
 }));
 app.use(express.json({ limit: '10mb' }));
