@@ -2,7 +2,7 @@
 // src/app/ai-chat/page.tsx
 // AI Guest Messaging Hub with chat UI and message generation
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import {
   Sparkles, Send, Copy, Check, MessageSquare,
@@ -36,6 +36,20 @@ const TYPE_CONFIG: Record<MessageType | string, { icon: any; label: string; colo
 };
 
 export default function AIChatPage() {
+  return (
+    <Suspense fallback={
+      <DashboardLayout>
+        <div className="flex items-center justify-center h-full py-20">
+          <Spinner size="lg" />
+        </div>
+      </DashboardLayout>
+    }>
+      <AIChatInner />
+    </Suspense>
+  );
+}
+
+function AIChatInner() {
   const { lang } = useAuth();
   const searchParams = useSearchParams();
   const initialBookingId = searchParams.get('booking') || '';
