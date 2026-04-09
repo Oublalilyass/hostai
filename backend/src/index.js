@@ -18,14 +18,8 @@ const allowedOrigins = process.env.FRONTEND_URLS
 // MIDDLEWARE
 // ============================================================
 app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin) return callback(null, true); // allow Postman
-    if (allowedOrigins.indexOf(origin) === -1) {
-      return callback(new Error('CORS policy: origin not allowed'), false);
-    }
-    return callback(null, true);
-  },
-  credentials: true,
+  origin: '*',  // allow all origins
+  credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
