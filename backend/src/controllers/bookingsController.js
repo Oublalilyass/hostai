@@ -95,8 +95,8 @@ const createBooking = async (req, res) => {
     // Auto-create notification
     await pool.query(
       `INSERT INTO notifications (host_id, booking_id, property_id, type, title, body)
-       VALUES ($1,$2,$3,'checkin_reminder','New booking added','Guest $4 arrives on $5')`,
-      [req.user.id, booking.id, property_id, guest_name, check_in]
+       VALUES ($1,$2,$3,'checkin_reminder',$4,$5)`,
+      [req.user.id, booking.id, property_id, 'New booking: ' + guest_name, 'Guest ' + guest_name + ' arrives on ' + check_in]
     );
 
     res.status(201).json({ booking });
