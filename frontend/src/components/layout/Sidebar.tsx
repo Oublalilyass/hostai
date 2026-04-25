@@ -1,11 +1,11 @@
 'use client';
-// src/components/layout/Sidebar.tsx
+// frontend/src/components/layout/Sidebar.tsx
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard, Building2, CalendarDays, MessageSquareText,
-  Sparkles, LogOut, ChevronDown, Globe, BellRing,
+  Sparkles, LogOut, ChevronDown, Globe, BellRing, Star,
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { t, type Lang } from '@/lib/i18n';
@@ -13,9 +13,9 @@ import { useState } from 'react';
 import clsx from 'clsx';
 
 const LANGS: { code: Lang; label: string; flag: string }[] = [
-  { code: 'en', label: 'English', flag: '🇬🇧' },
+  { code: 'en', label: 'English',  flag: '🇬🇧' },
   { code: 'fr', label: 'Français', flag: '🇫🇷' },
-  { code: 'es', label: 'Español', flag: '🇪🇸' },
+  { code: 'es', label: 'Español',  flag: '🇪🇸' },
 ];
 
 export default function Sidebar() {
@@ -24,11 +24,12 @@ export default function Sidebar() {
   const [langOpen, setLangOpen] = useState(false);
 
   const nav = [
-    { href: '/dashboard', icon: LayoutDashboard, key: 'dashboard' as const },
-    { href: '/properties', icon: Building2, key: 'properties' as const },
-    { href: '/bookings', icon: CalendarDays, key: 'bookings' as const },
-    { href: '/ai-chat', icon: Sparkles, key: 'aiChat' as const },
-    { href: '/cleaning', icon: MessageSquareText, key: 'cleaning' as const },
+    { href: '/dashboard',  icon: LayoutDashboard,   key: 'dashboard'  as const },
+    { href: '/properties', icon: Building2,         key: 'properties' as const },
+    { href: '/bookings',   icon: CalendarDays,      key: 'bookings'   as const },
+    { href: '/ai-chat',    icon: Sparkles,          key: 'aiChat'     as const },
+    { href: '/cleaning',   icon: MessageSquareText, key: 'cleaning'   as const },
+    { href: '/reviews',    icon: Star,              label: 'Reviews'           },
   ];
 
   const currentLang = LANGS.find(l => l.code === lang);
@@ -38,7 +39,8 @@ export default function Sidebar() {
       {/* Logo */}
       <div className="px-6 py-5 border-b border-sand">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #FF385C, #E31C5F)' }}>
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center"
+            style={{ background: 'linear-gradient(135deg, #FF385C, #E31C5F)' }}>
             <Sparkles className="w-4 h-4 text-white" />
           </div>
           <span className="text-lg font-bold" style={{ color: '#222' }}>HostAI</span>
@@ -47,13 +49,13 @@ export default function Sidebar() {
 
       {/* Navigation */}
       <nav className="flex-1 px-3 py-4 space-y-0.5">
-        {nav.map(({ href, icon: Icon, key }) => {
+        {nav.map(({ href, icon: Icon, key, label }: any) => {
           const active = pathname.startsWith(href);
           return (
             <Link key={href} href={href}
               className={clsx('nav-item', active && 'active')}>
               <Icon className="w-4 h-4 flex-shrink-0" />
-              <span>{t(lang, key)}</span>
+              <span>{label ?? t(lang, key)}</span>
             </Link>
           );
         })}
@@ -65,8 +67,7 @@ export default function Sidebar() {
         <div className="relative">
           <button
             onClick={() => setLangOpen(!langOpen)}
-            className="nav-item w-full justify-between"
-          >
+            className="nav-item w-full justify-between">
             <div className="flex items-center gap-3">
               <Globe className="w-4 h-4" />
               <span>{currentLang?.flag} {currentLang?.label}</span>
@@ -76,14 +77,12 @@ export default function Sidebar() {
           {langOpen && (
             <div className="absolute bottom-full left-0 right-0 mb-1 bg-white border border-sand rounded-xl shadow-lg py-1 z-50">
               {LANGS.map(l => (
-                <button
-                  key={l.code}
+                <button key={l.code}
                   onClick={() => { setLang(l.code); setLangOpen(false); }}
                   className={clsx(
                     'w-full flex items-center gap-3 px-4 py-2 text-sm hover:bg-beach transition-colors',
                     lang === l.code && 'font-semibold text-rausch'
-                  )}
-                >
+                  )}>
                   <span>{l.flag}</span>
                   <span>{l.label}</span>
                 </button>

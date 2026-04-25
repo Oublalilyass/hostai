@@ -1,0 +1,20 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model ReviewRequest {
+  id            Int      @id @default(autoincrement())
+  booking_id    String?  @db.Uuid
+  property_id   String?  @db.Uuid
+  email         String?
+  guest_name    String?
+  review_text   String?
+  review_rating Int?
+  status        String   @default("pending")
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+}
