@@ -75,18 +75,24 @@ const getReviews = async (req, res) => {
     const params = [req.user.id];
 
     let query = `
-      SELECT
-        rr.*,
-        p.title_en, p.title_fr, p.title_es, p.city, p.images,
-        b.check_in, b.check_out, b.source,
-        EXTRACT(DAY FROM (b.check_out::date - b.check_in::date) AS stay_nights
-      FROM review_requests rr
-      JOIN properties p ON rr.property_id = p.id
-      JOIN bookings   b ON rr.booking_id  = b.id
-      WHERE rr.host_id = $1
-    `;
+  SELECT
+    rr.*,
+    p.title_en,
+    p.title_fr,
+    p.title_es,
+    p.city,
+    p.images,
+    b.check_in,
+    b.check_out,
+    b.source,
+    (b.check_out::date - b.check_in::date) AS stay_nights
+  FROM review_requests rr
+  JOIN properties p ON rr.property_id = p.id
+  JOIN bookings b ON rr.booking_id = b.id
+  WHERE rr.host_id = $1
+`;
 
-    if (status)      { params.push(status);      query += ` AND rr.status = $${params.length}`;      }
+    if (status) { params.push(status); query += ` AND rr.status = $${params.length}`; }
     if (property_id) { params.push(property_id); query += ` AND rr.property_id = $${params.length}`; }
     query += ' ORDER BY rr.created_at DESC';
 
@@ -133,7 +139,7 @@ const generateReview = async (req, res) => {
     );
     if (!bRes.rows.length) return res.status(404).json({ error: 'Booking not found' });
 
-    const b    = bRes.rows[0];
+    const b = bRes.rows[0];
     const lang = safeLang(language || b.guest_language);
     const title = b[`title_${lang}`] || b.title_en || 'your property';
     const nights = stayNights(b.check_in, b.check_out);
@@ -160,7 +166,7 @@ const generateReview = async (req, res) => {
             message, language, platform, send_after_hours, scheduled_at, status)
          VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,'pending') RETURNING *`,
         [booking_id, b.property_id, req.user.id, b.guest_name, b.guest_email || null, lang,
-         message, lang, platform, Number(send_after_hours), scheduledAt]
+          message, lang, platform, Number(send_after_hours), scheduledAt]
       );
       row = i.rows[0];
     }
@@ -187,8 +193,8 @@ const sendReview = async (req, res) => {
       `INSERT INTO notifications (host_id, booking_id, property_id, type, title, body)
        VALUES ($1,$2,$3,'review_sent',$4,$5)`,
       [req.user.id, r.rows[0].booking_id, r.rows[0].property_id,
-       'Review request sent', `Sent to ${r.rows[0].guest_name}`]
-    ).catch(() => {});
+        'Review request sent', `Sent to ${r.rows[0].guest_name}`]
+    ).catch(() => { });
 
     res.json({ reviewRequest: r.rows[0] });
   } catch (err) {
@@ -215,7 +221,7 @@ const updateReview = async (req, res) => {
          updated_at       = NOW()
        WHERE id=$8 AND host_id=$9 RETURNING *`,
       [message, platform, status, review_received ?? null, review_rating ?? null,
-       review_note ?? null, send_after_hours ?? null, req.params.id, req.user.id]
+        review_note ?? null, send_after_hours ?? null, req.params.id, req.user.id]
     );
     if (!r.rows.length) return res.status(404).json({ error: 'Not found' });
     res.json({ reviewRequest: r.rows[0] });
@@ -265,15 +271,15 @@ const bulkGenerate = async (req, res) => {
     }
 
     const created = [];
-    const errors  = [];
+    const errors = [];
 
     for (const b of bRes.rows) {
       try {
-        const lang   = safeLang(b.guest_language);
-        const title  = b[`title_${lang}`] || b.title_en || 'your property';
+        const lang = safeLang(b.guest_language);
+        const title = b[`title_${lang}`] || b.title_en || 'your property';
         const nights = stayNights(b.check_in, b.check_out);
 
-        const message     = await generateReviewMessage({ guestName: b.guest_name, propertyTitle: title, language: lang, stayDuration: nights });
+        const message = await generateReviewMessage({ guestName: b.guest_name, propertyTitle: title, language: lang, stayDuration: nights });
         const scheduledAt = new Date(safeDate(b.check_out).getTime() + Number(send_after_hours) * 3600000);
 
         const ins = await pool.query(
@@ -283,7 +289,7 @@ const bulkGenerate = async (req, res) => {
            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,'pending')
            ON CONFLICT DO NOTHING RETURNING *`,
           [b.id, b.property_id, req.user.id, b.guest_name, b.guest_email || null, lang,
-           message, lang, platform, Number(send_after_hours), scheduledAt]
+            message, lang, platform, Number(send_after_hours), scheduledAt]
         );
         if (ins.rows.length) created.push(ins.rows[0]);
       } catch (rowErr) {
